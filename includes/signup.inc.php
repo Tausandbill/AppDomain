@@ -28,7 +28,7 @@ if(isset($_POST["signup-submit"])){
    
     }
     //Checking if password meets requirements
-    elseif (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,30}$/', $password) || $password[0]!= "/^[a-zA-Z]$/") {
+    elseif (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,30}$/', $password)) {
         header("location: ../signup.php?error=invalidpassword&firstName=".$firstName."&lastName=".$lastName."&dob=".$dateOfBirth."&address=".$address."&mail=".$email);       
         exit(); 
     }
