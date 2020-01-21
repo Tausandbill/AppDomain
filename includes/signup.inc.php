@@ -27,14 +27,15 @@ if(isset($_POST["signup-submit"])){
         exit();
    
     }
-    elseif (!preg_match("/^[a-zA-Z0-9]*$/", $password)) {
+    //Checking if password meets requirements
+    elseif (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,30}$/', $password) || $password[0]!= "/^[a-zA-Z]$/") {
         header("location: ../signup.php?error=invalidpassword&firstName=".$firstName."&lastName=".$lastName."&dob=".$dateOfBirth."&address=".$address."&mail=".$email);       
         exit(); 
     }
     elseif ($password !== $passwordRepeat) {
         header("location: ../signup.php?error=passwordcheck&firstName=".$firstName."&lastName=".$lastName."&dob=".$dateOfBirth."&address=".$address."&mail=".$email);
         exit();
-    }
+    } 
     else {
         $sql = "INSERT INTO users(userName, fName, lName, dateOfBirth, address, email, pwd) VALUES (?,?,?,?,?,?,?)";
         $stmt = mysqli_stmt_init($conn);
