@@ -1,5 +1,5 @@
 <?php
-require "header.php"
+    require "header.php"
 ?>
 
     <main>
@@ -20,7 +20,7 @@ require "header.php"
                 }
             }
         ?>
-        <form action="../includes/signup.inc.php" method="post">
+        <form action="includes/signup.inc.php" method="post">
             <input type="text" name="firstName" placeholder="First Name">
             <br>
             <input type="text" name="lastName" placeholder="Last Name">
@@ -37,8 +37,20 @@ require "header.php"
             <br>
             <button type="submit" name="signup-submit">Submit</button>
         </form>
+
+        <?php  
+            if (isset($_GET["newpwd"])) {
+                if ($_GET["newpwd"] == "passwordupdated") {
+                    echo "<p>Your password has been reset!</p>";
+                }                
+            }
+            /*
+            <a href="reset-password.php">Forgot your password?</a> 
+        */
+        ?> 
+        
     </main>
 
 <?php
-require "footer.php"
+    require "footer.php"
 ?>

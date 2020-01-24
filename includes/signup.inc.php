@@ -10,6 +10,13 @@ if(isset($_POST["signup-submit"])){
     $email = $_POST["mail"];
     $password = $_POST["pwd"];
     $passwordRepeat = $_POST["pwdRepeat"];
+    $admin = 0;
+    $manager = 0;
+    $accountant = 1;
+    $active = 0;
+    $suspendEnd = date("Y.m.d");
+    $passAttempt = 0;
+    $pictureLocation = "";
 
     $userName = strtolower($firstName[0]).strtolower($lastName).date(m).date(y);
 
@@ -24,20 +31,19 @@ if(isset($_POST["signup-submit"])){
     }
     elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("location: ../signup.php?error=invalidmail&firstName=".$firstName."&lastName=".$lastName."&dob=".$dateOfBirth."&address=".$address);     
-        exit();
-   
+        exit();   
     }
     //Checking if password meets requirements
-    elseif (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,30}$/', $password)) {
+    elseif (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%.]{8,30}$/', $password) /*|| $password[0]!= "/^[a-zA-Z]$/"*/) {
         header("location: ../signup.php?error=invalidpassword&firstName=".$firstName."&lastName=".$lastName."&dob=".$dateOfBirth."&address=".$address."&mail=".$email);       
         exit(); 
     }
     elseif ($password !== $passwordRepeat) {
         header("location: ../signup.php?error=passwordcheck&firstName=".$firstName."&lastName=".$lastName."&dob=".$dateOfBirth."&address=".$address."&mail=".$email);
         exit();
-    } 
+    }    
     else {
-        $sql = "INSERT INTO users(userName, fName, lName, dateOfBirth, address, email, pwd) VALUES (?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO users(userName, fName, lName, dateOfBirth, address, email, pwd, admin, manager, accountant, active, suspendEnd, passAttempt, pictureLocation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
             header("location: ../signup.php?error=sqlerror");
@@ -46,7 +52,7 @@ if(isset($_POST["signup-submit"])){
         else {
             $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
-            mysqli_stmt_bind_param($stmt,sssssss, $userName, $firstName, $lastName, $dateOfBirth, $address, $email, $hashedPwd);
+            mysqli_stmt_bind_param($stmt,sssssssiiiisis, $userName, $firstName, $lastName, $dateOfBirth, $address, $email, $hashedPwd, $admin, $manager, $accountant, $active, $suspendEnd, $passAttempt, $pictureLocation);
             mysqli_stmt_execute($stmt);
             header("location: ../signup.php?signup=success");
             exit();
@@ -58,6 +64,6 @@ if(isset($_POST["signup-submit"])){
 
 }
 else {
-    header("Location: ../signup-php");
+    header("Location: ../signup.php");
     exit();
 }
