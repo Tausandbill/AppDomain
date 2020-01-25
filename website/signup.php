@@ -20,7 +20,7 @@
                 }
             }
         ?>
-        <form action="includes/signup.inc.php" method="post">
+        <form action="../includes/signup.inc.php" method="post">
             <input type="text" name="firstName" placeholder="First Name">
             <br>
             <input type="text" name="lastName" placeholder="Last Name">
