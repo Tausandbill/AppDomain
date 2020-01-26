@@ -29,7 +29,7 @@
                 <button type="submit" name="login-submit">Login</button>
                 <a href="reset-password.php">Forgot your password?</a>
             </form>
-            <a href="signup.php">Singup</a>';
+            <a href="signup.php">Signup</a>';
             }
             else {
                 echo '<form action="../includes/logout.inc.php" method="post">

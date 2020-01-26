@@ -7,14 +7,14 @@ if(isset($_POST["login-submit"])){
     $password = $_POST["pwd"];
 
     if(empty($userid) || empty($password)){
-        header("Location: ../index.php?error=emptyfields&username=".$userid);
+        header("Location: ../website/index.php?error=emptyfields&username=".$userid);
     exit();
     }
     else {
         $sql = "SELECT * FROM users WHERE userName=?;";
         $stmt = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: ../index.php?error=sqlerror");
+            header("Location: ../website/index.php?error=sqlerror");
             exit();
         }
         else {
@@ -24,20 +24,25 @@ if(isset($_POST["login-submit"])){
             if ($row = mysqli_fetch_assoc($result)) {
                 $pwdcheck = password_verify($password, $row["pwd"]);
                 if($pwdcheck == false){
-                    header("Location: ../index.php?error=wrongpassword");
+                    header("Location: ../website/index.php?error=wrongpassword");
                     exit();
                 }
                 else if ($pwdcheck == true) {
                     session_start();
                     $_SESSION["userid"] = $row["userName"];
                     $_SESSION["mail"] = $row["email"];
-
-                    header("Location: ../index.php?login=success");
+                    $admin = $row["admin"];
+                    if ($admin == '1') {
+                        header("Location: ../website/admin_page.php");
+                    }
+                    else {
+                        header("Location: ../website/index.php?login=success");
+                    }
                 exit();
                 }
             }
             else {
-                header("Location: ../index.php?error=nouser");
+                header("Location: ../website/index.php?error=nouser");
                 exit();
 
             }
@@ -47,6 +52,6 @@ if(isset($_POST["login-submit"])){
 
 }
 else{
-    header("Location: ../index.php");
+    header("Location: ../website/index.php");
     exit();
 }

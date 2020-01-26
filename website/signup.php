@@ -8,14 +8,11 @@
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "emptyfields") {
                     echo "<p>Fill in all the fields</p>";
-                }
-                else if ($_GET["error"] == "invalidpassword") {
+                } else if ($_GET["error"] == "invalidpassword") {
                     echo "<p>Password does not meet requirements</p>";
-                }
-                else if ($_GET["error"] == "passwordcheck") {
+                } else if ($_GET["error"] == "passwordcheck") {
                     echo "<p>Confirmation password does not match</p>";
-                }
-                else if ($_GET["error"] == "invalidmail") {
+                } else if ($_GET["error"] == "invalidmail") {
                     echo "<p>Invalid e-mail</p>";
                 }
             }
@@ -34,6 +31,9 @@
             <input type="password" name="pwd" placeholder="Password">
             <br>
             <input type="password" name="pwdRepeat" placeholder="Repeat password">
+            <br>
+            <INPUT TYPE = 'Radio' Name ='type'  value= 'accountant' >Accountant
+            <INPUT TYPE = 'Radio' Name ='type'  value= 'manager' >Manager
             <br>
             <button type="submit" name="signup-submit">Submit</button>
         </form>
