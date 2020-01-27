@@ -9,12 +9,12 @@
     <title>Accounting</title>
     <link rel="stylesheet" href="css/stylesheet.css">
 </head>
-<body>
+<body style="text-align: center" >
     <header>
         <nav>
-            <div class="logoimg">
+            <div class="logoimg" >
                 <a href="index.php">
-                    <img src="../img/logo.jpg" alt="logo" >
+                   <img src="../img/logo.jpg" alt="logo" width="300" height="300" >
                 </a>
             </div>
             <ul>
@@ -23,13 +23,24 @@
             <div>
             <?php
             if (!isset($_SESSION["userid"])) {
-                echo '<form action="../includes/login.inc.php" method="post">
+                echo '<form action="../includes/login.inc.php" method="post" >
+                <strong>Username:</strong>
                 <input type="text" name="userid" placeholder="Username">
+                <br><br>
+                <strong>Password:</strong>
                 <input type="password" name="pwd" placeholder="Password">
-                <button type="submit" name="login-submit">Login</button>
-                <a href="reset-password.php">Forgot your password?</a>
+                <br><br>
+                
+               <button style=" background-color: chartreuse; height: 30px; width: 100px;type="button" name="login-submit">Login</button>
+               
+                
+                <br>
+                <br>
+                &nbsp<a href="reset-password.php"><span style="color: #00bfff;">Forgot your password?</a>
+                
             </form>
-            <a href="signup.php">Signup</a>';
+       
+             &nbsp&nbsp<a href="signup.php"><span style="color: #00bfff;">Signup</a>';
             }
             else {
                 echo '<form action="../includes/logout.inc.php" method="post">
@@ -37,7 +48,7 @@
             </form>';
             }
             ?>
-                
+
 
                 
             </div>
