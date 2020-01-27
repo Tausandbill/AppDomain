@@ -9,7 +9,7 @@ if(!isset($_SERVER['HTTP_REFERER'])){ // Redirect if attempt to access page dire
 
 require "../website/admin-header.php";
 
-require "dbh.inc.php";
+require "../includes/dbh.inc.php";
 
 ?>
 

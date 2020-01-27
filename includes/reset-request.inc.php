@@ -22,6 +22,9 @@ if (isset($_POST["reset-request-submit"])) {
     }
     else{
         //Updating database
+
+        // Check if using old password
+
         $sql = "UPDATE users SET pwd=? WHERE email=?;";
         $stmt = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -32,9 +35,65 @@ if (isset($_POST["reset-request-submit"])) {
             //Hashing new password
             $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 
-            mysqli_stmt_bind_param($stmt, "ss", $hashedPwd, $userEmail);
-            mysqli_stmt_execute($stmt);
-            header("Location: ../website/signup.php?newpwd=passwordupdated");
+            // Get user id
+
+            $sqlGetUID = "SELECT idUsers FROM users WHERE userName='$userName';";
+            if ($result = mysqli_query($conn, $sqlGetUID)) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $uid = $row["idUsers"];
+                }
+            }
+
+            $reused = false;
+
+            // Compare old passwords
+            $sqlGetOldPass = "SELECT pwd FROM password WHERE userId='$uid';";
+            if ($result = mysqli_query($conn, $sqlGetOldPass)) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if (password_verify($pwd, $row['pwd'])) {
+                        $reused = true;
+                    }
+                }
+            }
+
+            if (!$reused) {
+                mysqli_stmt_bind_param($stmt, "ss", $hashedPwd, $userEmail);
+                mysqli_stmt_execute($stmt);
+
+                $sqlNew = "SELECT idUsers FROM users WHERE userName='$userName'";
+
+                if ($result = mysqli_query($conn, $sqlNew)) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $uid = $row["idUsers"];
+                    }
+                }
+                else {
+                    header("location: ../website/signup.php?error=sqlgetIDfail");
+                    exit();
+                }
+
+                mysqli_free_result($result);
+
+                $isCurrent = 1;
+                $isExpired = 0;
+
+                $activeDate = date_create()->format('Y-m-d');
+                $inactiveDate = date('Y-m-d',strtotime(date("Y-m-d", mktime()) . " + 365 day"));
+
+                $sqlPWD = "INSERT INTO password(pwd, userId, isCurrent, activeDate, inactiveDate, isExpired) VALUES ('$hashedPwd', '$uid', '$isCurrent', '$activeDate', '$inactiveDate', '$isExpired')";
+
+                if (!mysqli_query($conn, $sqlPWD)) {
+                    header("location: ../website/index.php?error=sqlerrorInsertPass");
+                    exit();
+                }
+
+                header('location: ../website/index.php?pass-change-success');
+
+
+            }
+            else {
+                header("Location: ../website/index.php?newpwd=passwordupdatefailed-reusedOldPass");
+            }
         }
     }  
 } 

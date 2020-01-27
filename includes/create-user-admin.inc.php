@@ -22,7 +22,7 @@ if(isset($_POST["create-user-submit"])){
     else {
         $admin = 1;
     }
-    $active = 0;
+    $active = 1;
     $suspendEnd = date("Y.m.d");
     $passAttempt = 0;
     $pictureLocation = "";
@@ -63,13 +63,47 @@ if(isset($_POST["create-user-submit"])){
 
             mysqli_stmt_bind_param($stmt,sssssssiiiisis, $userName, $firstName, $lastName, $dateOfBirth, $address, $email, $hashedPwd, $admin, $manager, $accountant, $active, $suspendEnd, $passAttempt, $pictureLocation);
             mysqli_stmt_execute($stmt);
-            header("location: ../website/admin.php?create-user=success");
+
+            // Adding password to db
+
+            $sqlNew = "SELECT idUsers FROM users WHERE userName='$userName'";
+
+            if ($result = mysqli_query($conn, $sqlNew)) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $uid = $row["idUsers"];
+                }
+            }
+            else {
+                header("location: ../website/admin.php?error=sqlgetIDfail");
+                exit();
+            }
+
+            mysqli_free_result($result);
+
+            $isCurrent = 1;
+            $isExpired = 0;
+
+            $activeDate = date_create()->format('Y-m-d');
+            $inactiveDate = date('Y-m-d',strtotime(date("Y-m-d", mktime()) . " + 365 day"));
+
+            $sqlPWD = "INSERT INTO password(pwd, userId, isCurrent, activeDate, inactiveDate, isExpired) VALUES ('$hashedPwd', '$uid', '$isCurrent', '$activeDate', '$inactiveDate', '$isExpired')";
+
+            if (!mysqli_query($conn, $sqlPWD)) {
+                header("location: ../website/admin.php?error=sqlerrorInsertPass");
+                exit();
+            }
+
+            mysqli_stmt_close($stmt);
+            mysqli_close($conn);
+
+            // end add password
+
+
+            header("location: ../website/admin.php?signup=success");
             exit();
         }
 
     }
-    mysqli_stmt_close($stmt);
-    mysqli_close($conn);
 
 }
 else {

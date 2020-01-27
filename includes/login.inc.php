@@ -25,18 +25,70 @@ if(isset($_POST["login-submit"])){
                 $pwdcheck = password_verify($password, $row["pwd"]);
                 if($pwdcheck == false){
                     header("Location: ../website/index.php?error=wrongpassword");
+                    // Add wrong attempts
+
+                    $sqlGetAtt = "SELECT passAttempt FROM users WHERE userName='$userid';";
+
+                    if ($result = mysqli_query($conn, $sqlGetAtt)) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $attempts = $row["passAttempt"] + 1;
+                        }
+                    }
+
+                    mysqli_free_result($result);
+
+                    $sqlPostAtt = "UPDATE users SET passAttempt='$attempts' WHERE userName='$userid';";
+                    mysqli_query($conn, $sqlPostAtt);
                     exit();
                 }
                 else if ($pwdcheck == true) {
-                    session_start();
-                    $_SESSION["userid"] = $row["userName"];
-                    $_SESSION["mail"] = $row["email"];
-                    $admin = $row["admin"];
-                    if ($admin == '1') {
-                        header("Location: ../website/admin.php");
+
+                    $sqlGetPassAtt = "SELECT passAttempt FROM users WHERE userName='$userid';";
+                    if ($result = mysqli_query($conn, $sqlGetPassAtt)) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $attempts = $row["passAttempt"];
+                        }
+                    }
+
+                    if ($attempts >= 3) {
+                        $sqlSetLocked = "UPDATE users SET active='0' WHERE userName='$userid';";
+                        mysqli_query($conn, $sqlSetLocked);
+                    }
+
+                    $sqlGetAct = "SELECT active FROM users WHERE userName='$userid';";
+
+                    if ($result = mysqli_query($conn, $sqlGetAct)) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $active = $row["active"];
+                        }
+                    }
+
+                    mysqli_free_result($result);
+
+                    if (!($active == '1')) {
+                        header("Location: ../website/index.php?login=failed-acct-locked");
                     }
                     else {
-                        header("Location: ../website/index.php?login=success");
+
+                        $sqlResetAtt = "UPDATE users SET passAttempt='0' WHERE userName='$userid';";
+                        mysqli_query($conn, $sqlResetAtt);
+
+                        session_start();
+                        $_SESSION["userid"] = $row["userName"];
+                        $_SESSION["mail"] = $row["email"];
+
+                        $sqlGetIfAdmin = "SELECT admin FROM users WHERE userName='$userid';";
+                        if ($result = mysqli_query($conn, $sqlGetIfAdmin)) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $admin = $row["admin"];
+                            }
+                        }
+
+                        if ($admin == '1') {
+                            header("Location: ../website/admin.php");
+                        } else {
+                            header("Location: ../website/index.php?login=success");
+                        }
                     }
                 exit();
                 }
@@ -48,6 +100,7 @@ if(isset($_POST["login-submit"])){
             }
         }
     }
+    mysqli_close($conn);
     
 
 }
