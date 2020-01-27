@@ -11,13 +11,13 @@ if (isset($_POST["reset-request-submit"])) {
 
     //Checking for empty fields 
     if (empty($pwd) || empty($pwdRepeat) || empty($userEmail) || empty($userName)) {
-        header("Location: ../reset-password.php?newpwd=empty");
+        header("Location: ../website/reset-password.php?newpwd=empty");
         echo "<p>Fill in all the fields</p>";
         exit();
     }//Checking if password and repeat password match
     else if ($pwd !== $pwdRepeat) {
-        header("Location: ../reset-password.php?newpwd=pwddontmatch");
-        echo "<p>Password dont match</p>";
+        header("Location: ../website/reset-password.php?newpwd=pwddontmatch");
+        echo "<p>Passwords dont match</p>";
         exit();
     }
     else{
@@ -34,7 +34,7 @@ if (isset($_POST["reset-request-submit"])) {
 
             mysqli_stmt_bind_param($stmt, "ss", $hashedPwd, $userEmail);
             mysqli_stmt_execute($stmt);
-            header("Location: ../signup.php?newpwd=passwordupdated");
+            header("Location: ../website/signup.php?newpwd=passwordupdated");
         }
     }  
 } 

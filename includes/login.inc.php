@@ -33,7 +33,7 @@ if(isset($_POST["login-submit"])){
                     $_SESSION["mail"] = $row["email"];
                     $admin = $row["admin"];
                     if ($admin == '1') {
-                        header("Location: ../website/admin_page.php");
+                        header("Location: ../website/admin.php");
                     }
                     else {
                         header("Location: ../website/index.php?login=success");

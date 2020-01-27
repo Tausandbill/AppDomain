@@ -6,7 +6,7 @@
         <div>
             <section>
                 <h1>Reset your password</h1>
-                <form action="includes/reset-request.inc.php" method="post">
+                <form action="../includes/reset-request.inc.php" method="post">
                 <input type="text" name="email" placeholder="Enter your e-mail address...">                    
                     <input type="text" name="userName" placeholder="Enter your username...">
                     <br>

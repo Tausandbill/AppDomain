@@ -1,6 +1,6 @@
 <?php
 
-$servername = 'localhost';
+$servername = '127.0.0.1';
 $dBUsername = 'root';//for localhost this is "root"
 $dBPassword = '';//for localhost this is "(empty if you are using phpMyadmin)"
 $dBNme = 'app_domain';//for localhost this is "(the name you give to your local database)"
