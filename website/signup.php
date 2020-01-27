@@ -18,24 +18,31 @@
             }
         ?>
         <form action="../includes/signup.inc.php" method="post">
+            <strong>Firstname:</strong>
             <input type="text" name="firstName" placeholder="First Name">
-            <br>
+            <br><br>
+            <strong>Lastname:</strong>
             <input type="text" name="lastName" placeholder="Last Name">
-            <br>
+            <br><br>
+            <strong>Date of birth:</strong>
             <input type="date" name="dob">
-            <br>
+            <br><br>
+            <strong>Address:</strong>
             <input type="text" name="address" placeholder="Address">
-            <br>
+            <br><br>
+            <strong>Email:</strong>
             <input type="email" name="mail" placeholder="E-Mail">
-            <br>
+            <br><br>
+            <strong>Password:</strong>
             <input type="password" name="pwd" placeholder="Password">
-            <br>
+            <br><br>
+            <strong>Repeat Password:</strong>
             <input type="password" name="pwdRepeat" placeholder="Repeat password">
-            <br>
+            <br><br>
             <INPUT TYPE = 'Radio' Name ='type'  value= 'accountant' >Accountant
             <INPUT TYPE = 'Radio' Name ='type'  value= 'manager' >Manager
             <br>
-            <button type="submit" name="signup-submit">Submit</button>
+            <button style = "background-color: deepskyblue" type="submit" name="signup-submit">Submit</button>
         </form>
 
         <?php  
