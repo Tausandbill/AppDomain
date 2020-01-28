@@ -77,17 +77,23 @@ if(isset($_POST["login-submit"])){
                         $_SESSION["userid"] = $row["userName"];
                         $_SESSION["mail"] = $row["email"];
 
-                        $sqlGetIfAdmin = "SELECT admin FROM users WHERE userName='$userid';";
+                        $sqlGetIfAdmin = "SELECT admin, accountant, manager FROM users WHERE userName='$userid';";
                         if ($result = mysqli_query($conn, $sqlGetIfAdmin)) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 $admin = $row["admin"];
+                                $accountant = $row["accountant"];
+                                $manager = $row["manager"];
                             }
                         }
 
                         if ($admin == '1') {
                             header("Location: ../website/admin.php");
-                        } else {
-                            header("Location: ../website/index.php?login=success");
+                        }
+                        elseif ($manager == '1') {
+                            header("Location: ../website/manager.php");
+                        }
+                        else {
+                            header("Location: ../website/accountant.php");
                         }
                     }
                 exit();

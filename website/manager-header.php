@@ -13,7 +13,7 @@ session_start();
 <header>
     <nav>
         <div class="profimg">
-            <a href="../website/admin.php">
+            <a href="../website/manager.php">
                 <img src="../img/profile_picture.jpg" alt="profimg" >
             </a>
         </div>
@@ -26,21 +26,7 @@ session_start();
             <button type="submit" name="logout-submit">Logout</button>
             </form>';
 
-            echo '<form action="../website/create-user.php" method="post">
-            <button type="submit" name="create user">Create User</button>
-            </form>';
-
-            echo '<form action="../includes/admin-edit-user-form.inc.php" method="post">
-            <button type="submit" name="edit-user">Edit User</button>
-            </form>';
-
-            echo '<form action="../includes/admin-show-all-user.inc.php" method="post">
-            <button type="submit" name="show-all-user">All Users</button>
-            </form>';
-
-            echo '<form action="../includes/admin-show-exp-pass.inc.php" method="post">
-            <button type="submit" name="show-all-exp-pass">Expired Passwords</button>
-            </form>';
+            echo "User: Manager -add username-";
 
             ?>
 

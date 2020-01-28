@@ -18,7 +18,7 @@ $( document ).ready(function() {
             var edit = columnsEd[0].childNodes[25].innerHTML;
             $.ajax({
                 type: 'POST',
-                url : "action.php",
+                url : "action.inc.php",
                 dataType: "json",
                 data: {id:id, userName:usName, fName:fName, lName:lName, DOB:DOB, address:address, email:email,
                     admin:admin, manager:manager, accountant:accountant, active:active, suspEnd:suspEnd, pwdAtm:pwdAtm, edit:edit, action:'edit'},
@@ -32,7 +32,7 @@ $( document ).ready(function() {
             var id = columnsEd[0].childNodes[1].innerHTML;
             $.ajax({
                 type: 'POST',
-                url : "action.php",
+                url : "action.inc.php",
                 dataType: "json",
                 data: {id:id, action:'delete'},
                 success: function (response) {

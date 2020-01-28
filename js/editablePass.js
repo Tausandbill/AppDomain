@@ -11,7 +11,7 @@ $( document ).ready(function() {
             var edit = columnsEd[0].childNodes[13].innerHTML;
             $.ajax({
                 type: 'POST',
-                url : "action.php",
+                url : "action.inc.php",
                 dataType: "json",
                 data: {id:id, isID:usID, exp:exp, cur:cur, acDat:acDat, inacDat:inacDat, edit:edit, action:'edit'},
                 success: function (response) {
@@ -24,7 +24,7 @@ $( document ).ready(function() {
             var id = columnsEd[0].childNodes[1].innerHTML;
             $.ajax({
                 type: 'POST',
-                url : "action.php",
+                url : "action.inc.php",
                 dataType: "json",
                 data: {id:id, action:'delete'},
                 success: function (response) {

@@ -1,5 +1,5 @@
 <?php
-    require "header.php"
+require "login-screen.php"
 ?>
 
     <main>
